@@ -68,4 +68,29 @@ socket.on("diceResult", (data) => {
     `;
 
     feed.prepend(entry);
+
+    function login() {
+    console.log("Login geklickt");
+
+    const input = document.getElementById("nameInput");
+
+    if (!input) {
+        alert("Input nicht gefunden");
+        return;
+    }
+
+    playerName = input.value.trim();
+
+    if (playerName === "") {
+        alert("Bitte Namen eingeben");
+        return;
+    }
+
+    localStorage.setItem("playerName", playerName);
+
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    document.getElementById("welcome").innerText =
+        "Willkommen, " + playerName;
 }
