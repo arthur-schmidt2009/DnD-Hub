@@ -5,88 +5,72 @@
     <title>DND HUB</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- LOGIN -->
-<div id="login">
-    <h1>Login</h1>
+<!-- ---------------- LOGIN / REGISTER ---------------- -->
+<div id="auth">
+
+    <h1>🎲 DND HUB</h1>
 
     <input id="username" placeholder="Username">
     <input id="password" type="password" placeholder="Password">
 
+    <br><br>
+
+    <button onclick="register()">Register</button>
     <button onclick="login()">Login</button>
+
+    <p id="msg"></p>
+
 </div>
 
-<!-- APP -->
+<!-- ---------------- MAIN APP ---------------- -->
 <div id="app" style="display:none;">
 
-    <h1>DND HUB</h1>
+    <h1>🎲 DND HUB</h1>
 
     <p id="welcome"></p>
 
-    <h2>Character erstellen</h2>
+    <hr>
+
+    <!-- CHARACTER SYSTEM -->
+    <h2>🧙 Character erstellen</h2>
 
     <input id="charName" placeholder="Name">
+    <input id="charClass" placeholder="Class">
+    <input id="charRace" placeholder="Race">
     <input id="charHP" placeholder="HP">
     <input id="charAC" placeholder="AC">
 
-    <button onclick="createCharacter()">Save Character</button>
+    <br><br>
 
-    <h2>Dice</h2>
+    <button onclick="createCharacter()">Character speichern</button>
 
-    <button onclick="rollDice(20)">D20</button>
+    <hr>
+
+    <h2>🎲 Dice Roller</h2>
+
+    <button onclick="rollDice(2)">D2</button>
+    <button onclick="rollDice(4)">D4</button>
     <button onclick="rollDice(6)">D6</button>
+    <button onclick="rollDice(8)">D8</button>
+    <button onclick="rollDice(10)">D10</button>
+    <button onclick="rollDice(12)">D12</button>
+    <button onclick="rollDice(20)">D20</button>
+    <button onclick="rollDice(100)">D100</button>
 
-    <h2>Feed</h2>
+    <hr>
+
+    <h2>📜 Live Feed</h2>
     <div id="feed"></div>
 
 </div>
 
+<!-- SOCKET.IO -->
 <script src="/socket.io/socket.io.js"></script>
-<script src="script.js"></script>
 
-</body>
-</html><!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>DND Hub</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<!-- LOGIN -->
-<div id="loginScreen">
-    <h1>DND HUB</h1>
-
-    <input id="nameInput" placeholder="Dein Name">
-
-    <button onclick="login()">Enter Game</button>
-</div>
-
-<!-- GAME -->
-<div id="game" style="display:none;">
-
-    <h1>DND HUB</h1>
-
-    <p id="welcome"></p>
-
-    <div class="dice-buttons">
-        <button onclick="rollDice(4)">D4</button>
-        <button onclick="rollDice(6)">D6</button>
-        <button onclick="rollDice(8)">D8</button>
-        <button onclick="rollDice(10)">D10</button>
-        <button onclick="rollDice(12)">D12</button>
-        <button onclick="rollDice(20)">D20</button>
-        <button onclick="rollDice(100)">D100</button>
-    </div>
-
-    <h2>Dice Feed</h2>
-    <div id="feed"></div>
-
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 </body>
