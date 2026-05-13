@@ -2,112 +2,43 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DND HUB</title>
-
+    <title>DND Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="loginScreen">
+    <h1>DND HUB</h1>
 
-    <h1 class="title">DND HUB</h1>
+    <input id="nameInput" placeholder="Dein Name">
 
-    <div class="players">
+    <button onclick="login()">Enter Game</button>
+</div>
 
-        <!-- Spieler 1 -->
-        <div class="player-card">
+<!-- GAME -->
+<div id="game" style="display:none;">
 
-            <h2>Elarion</h2>
+    <h1>DND HUB</h1>
 
-            <div class="stats">
-                HP: 32 | AC: 15
-            </div>
+    <p id="welcome"></p>
 
-            <div class="dice-buttons">
-
-                <button onclick="rollDice('Elarion', 20)">
-                    D20
-                </button>
-
-                <button onclick="rollDice('Elarion', 6)">
-                    D6
-                </button>
-
-                <button onclick="rollDice('Elarion', 8)">
-                    D8
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- Spieler 2 -->
-        <div class="player-card">
-
-            <h2>Lyra</h2>
-
-            <div class="stats">
-                HP: 27 | AC: 14
-            </div>
-
-            <div class="dice-buttons">
-
-                <button onclick="rollDice('Lyra', 20)">
-                    D20
-                </button>
-
-                <button onclick="rollDice('Lyra', 4)">
-                    D4
-                </button>
-
-                <button onclick="rollDice('Lyra', 10)">
-                    D10
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- Spieler 3 -->
-        <div class="player-card">
-
-            <h2>Thorin</h2>
-
-            <div class="stats">
-                HP: 40 | AC: 18
-            </div>
-
-            <div class="dice-buttons">
-
-                <button onclick="rollDice('Thorin', 20)">
-                    D20
-                </button>
-
-                <button onclick="rollDice('Thorin', 12)">
-                    D12
-                </button>
-
-                <button onclick="rollDice('Thorin', 6)">
-                    D6
-                </button>
-
-            </div>
-
-        </div>
-
+    <div class="dice-buttons">
+        <button onclick="rollDice(4)">D4</button>
+        <button onclick="rollDice(6)">D6</button>
+        <button onclick="rollDice(8)">D8</button>
+        <button onclick="rollDice(10)">D10</button>
+        <button onclick="rollDice(12)">D12</button>
+        <button onclick="rollDice(20)">D20</button>
+        <button onclick="rollDice(100)">D100</button>
     </div>
 
-    <div class="feed-container">
-
-        <h2>Dice Feed</h2>
-
-        <div id="feed"></div>
-
-    </div>
+    <h2>Dice Feed</h2>
+    <div id="feed"></div>
 
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="script.js"></script>
 
 </body>
