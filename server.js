@@ -120,49 +120,42 @@ function createDefaultCharacter(userId) {
 // ─── AUTH ROUTES ──────────────────────────────────────────────────────────────
 app.post('/auth/login', (req, res) => {
   const { username, password } = req.body;
+
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password required' });
   }
- 
-  // Find or create user
+
   let user = Object.values(users).find(u => u.username === username);
- 
+
+  // CREATE USER
   if (!user) {
-    // Auto-create
-    const role = password === DM_PASSWORD ? 'dm' : 'player';
     user = {
       id: uuidv4(),
       username,
       password,
-      role,
+      role: password === DM_PASSWORD ? 'dm' : 'player',
       createdAt: new Date().toISOString()
     };
     users[user.id] = user;
-  } else {
-    // Validate password
-    if (user.password !== password) {
+  } 
+  // LOGIN EXISTING USER
+  else {
+    // optional: DM upgrade check
+    if (password === DM_PASSWORD) {
+      user.role = 'dm';
+    } 
+    else if (user.password !== password) {
       return res.status(401).json({ error: 'Invalid password' });
     }
   }
- 
+
   const sessionId = uuidv4();
   sessions[sessionId] = user.id;
- 
+
   res.json({
     sessionId,
     user: { id: user.id, username: user.username, role: user.role }
   });
-});
- 
-app.get('/auth/me', authMiddleware, (req, res) => {
-  const u = req.user;
-  res.json({ id: u.id, username: u.username, role: u.role });
-});
- 
-app.post('/auth/logout', authMiddleware, (req, res) => {
-  const sessionId = req.headers['authorization'];
-  delete sessions[sessionId];
-  res.json({ success: true });
 });
  
 // ─── CHARACTER ROUTES ─────────────────────────────────────────────────────────
