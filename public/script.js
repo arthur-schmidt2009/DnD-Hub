@@ -1,96 +1,71 @@
 const socket = io();
 
-let playerName = "";
+let currentUser = null;
 
 // LOGIN
-function login() {
-    const input = document.getElementById("nameInput");
+async function login() {
 
-    playerName = input.value.trim();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-    if (!playerName) return;
+    const res = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+    });
 
-    localStorage.setItem("playerName", playerName);
+    const data = await res.json();
 
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("game").style.display = "block";
+    currentUser = data.user;
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
 
     document.getElementById("welcome").innerText =
-        "Willkommen, " + playerName;
+        "Willkommen " + currentUser.username;
 }
 
-// DICE ROLL
+// CREATE CHARACTER
+async function createCharacter() {
+
+    const name = document.getElementById("charName").value;
+    const hp = document.getElementById("charHP").value;
+    const ac = document.getElementById("charAC").value;
+
+    await fetch("/character", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            userId: currentUser.id,
+            name,
+            hp,
+            ac,
+            stats: {}
+        })
+    });
+
+    alert("Character gespeichert!");
+}
+
+// DICE
 function rollDice(sides) {
 
     const result = Math.floor(Math.random() * sides) + 1;
 
     socket.emit("rollDice", {
-        player: playerName,
+        player: currentUser.username,
         sides,
         result
     });
 }
 
-// RECEIVE UPDATES
 socket.on("diceResult", (data) => {
-
-    const feed = document.getElementById("feed");
 
     const div = document.createElement("div");
 
     div.innerHTML = `
-        <b>${data.player}</b> würfelt D${data.sides}
-        → <b>${data.result}</b>
+        <b>${data.player}</b> würfelt D${data.sides} → <b>${data.result}</b>
     `;
 
-    feed.prepend(div);
-});﻿function rollDice(player, sides) {
-
-    const result = Math.floor(Math.random() * sides) + 1;
-
-    const feed = document.getElementById("feed");
-
-    const entry = document.createElement("div");
-
-    entry.classList.add("feed-entry");
-
-    if (sides === 20 && result === 20) {
-        entry.classList.add("crit");
-    }
-
-    if (sides === 20 && result === 1) {
-        entry.classList.add("fail");
-    }
-
-    entry.innerHTML = `
-        <strong>${player}</strong> würfelt D${sides}<br>
-        Ergebnis: <strong>${result}</strong>
-    `;
-
-    feed.prepend(entry);
-
-    function login() {
-    console.log("Login geklickt");
-
-    const input = document.getElementById("nameInput");
-
-    if (!input) {
-        alert("Input nicht gefunden");
-        return;
-    }
-
-    playerName = input.value.trim();
-
-    if (playerName === "") {
-        alert("Bitte Namen eingeben");
-        return;
-    }
-
-    localStorage.setItem("playerName", playerName);
-
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("game").style.display = "block";
-
-    document.getElementById("welcome").innerText =
-        "Willkommen, " + playerName;
-}
+    document.getElementById("feed").prepend(div);
+});
