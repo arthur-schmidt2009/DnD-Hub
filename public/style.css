@@ -1,49 +1,11 @@
 body {
-    margin: 0;
-    font-family: Arial;
     background: #0d0d0d;
     color: white;
+    font-family: Arial;
     text-align: center;
 }
 
-#loginScreen {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-input {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 8px;
-    border: none;
-}
-
-button {
-    padding: 10px 15px;
+input, button {
     margin: 5px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #292929;
-    color: white;
-}
-
-button:hover {
-    background: #f0c674;
-    color: black;
-}
-
-.dice-buttons {
-    margin: 20px;
-}
-
-#feed div {
-    background: #1b1b1b;
-    margin: 10px auto;
     padding: 10px;
-    width: 60%;
-    border-radius: 10px;
 }
